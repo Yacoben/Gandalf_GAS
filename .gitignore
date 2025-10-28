@@ -1,5 +1,6 @@
 # Visual Studio 2015 user specific files
 .vs/
+Builds/
 
 # Compiled Object files
 *.slo
@@ -47,7 +48,7 @@ SourceArt/**/*.tga
 
 # Binary Files
 Binaries/*
-Plugins/**/Binaries/*
+Plugins/*/Binaries/*
 
 # Builds
 Build/*
@@ -68,7 +69,28 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-Plugins/**/Intermediate/*
+Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# 🔴 Ignorujemy tylko cache i tymczasowe śmieci
+Content/**/__ExternalObjects__/
+
+# Jetbrains IDE
+.idea/
+
+# Wyjątki dla FMOD .lib plików
+!Plugins/FMODStudio/Binaries/
+!Plugins/FMODStudio/Binaries/Win64/
+!Plugins/FMODStudio/Binaries/Win64/*.lib
+!Plugins/FMODStudio/Binaries/Win64/*.dll
+
+# Wyjątki dla gitlfs plugin
+!Plugins/UEGitPlugin-3.16/Binaries/
+!Plugins/UEGitPlugin-3.16/Binaries/Win64/
+!Plugins/UEGitPlugin-3.16/Binaries/Win64/*.lib
+!Plugins/UEGitPlugin-3.16/Binaries/Win64/*.dll
+
+# Ignore Version.ini file
+Config/Version.ini
