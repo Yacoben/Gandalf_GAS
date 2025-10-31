@@ -1,4 +1,4 @@
-
+// Copyright Jakub Balcerzak
 
 
 #include "Characters/GandalfCharacter.h"
@@ -30,13 +30,8 @@ AGandalfCharacter::AGandalfCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
-	Weapon->SetupAttachment(GetMesh(), WeaponSocket);  // TODO: move it to WeaponClass
-	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
-// Called when the game starts or when spawned
 void AGandalfCharacter::BeginPlay()
 {
 	Super::BeginPlay();

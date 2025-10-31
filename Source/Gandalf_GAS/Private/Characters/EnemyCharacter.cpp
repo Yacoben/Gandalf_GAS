@@ -3,25 +3,28 @@
 
 #include "Characters/EnemyCharacter.h"
 
-// Sets default values
+#include "Gandalf_GAS/Public/GAS/GandalfAbilitySystemComponent.h"
+#include "Gandalf_GAS/Public/GAS/GandalfAttributeSet.h"
+
+
 AEnemyCharacter::AEnemyCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
-	Weapon->SetupAttachment(GetMesh(), WeaponSocket);  // TODO: move it to WeaponClass
-	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	AbilitySystemComponent = CreateDefaultSubobject<UGandalfAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	AttributeSet = CreateDefaultSubobject<UGandalfAttributeSet>(TEXT("AttributeSet"));
+
 }
 
-// Called when the game starts or when spawned
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void AEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -1,9 +1,9 @@
-
+// Copyright Jakub Balcerzak
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "Characters/BaseCharacter.h"
 #include "GandalfCharacter.generated.h"
 
 class USpringArmComponent;
@@ -13,7 +13,7 @@ class UInputAction;
 struct FInputActionValue;
 
 UCLASS()
-class GANDALF_GAS_API AGandalfCharacter : public ACharacter
+class GANDALF_GAS_API AGandalfCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -62,12 +62,5 @@ protected:
 	void Zoom(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
 	void Dodge(const FInputActionValue& Value);
-	/* Input */
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	TObjectPtr<USkeletalMeshComponent> Weapon;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	FName WeaponSocket = FName("hand_l_Staff_Socket");
 
 };

@@ -4,18 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "GameFramework/PlayerState.h"
-#include "GandalfPlayerState.generated.h"
+#include "GameFramework/Character.h"
+#include "BaseCharacter.generated.h"
 
 class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS()
-class GANDALF_GAS_API AGandalfPlayerState : public APlayerState, public IAbilitySystemInterface
+class GANDALF_GAS_API ABaseCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
+
 public:
-	AGandalfPlayerState();
+	ABaseCharacter();
+
+protected:
+	virtual void BeginPlay() override;
 
 public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -23,6 +27,9 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	TObjectPtr<USkeletalMeshComponent> Weapon;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
