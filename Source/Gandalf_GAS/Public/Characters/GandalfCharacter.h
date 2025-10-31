@@ -37,27 +37,31 @@ protected:
 
 	/* Input */
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputMappingContext* DefaultMappingContext;
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* MoveAction;
+	TObjectPtr<UInputAction> MoveAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* LookAction;
+	TObjectPtr<UInputAction> LookAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* JumpAction;
+	TObjectPtr<UInputAction> JumpAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* ZoomAction;
+	TObjectPtr<UInputAction> ZoomAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* AttackAction;
+	TObjectPtr<UInputAction> AttackAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> DodgeAction;
 
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void Zoom(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
+	void Dodge(const FInputActionValue& Value);
 	/* Input */
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")

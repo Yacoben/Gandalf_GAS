@@ -107,3 +107,7 @@ void AGandalfCharacter::Attack(const FInputActionValue& Value)
 {
 }
 
+void AGandalfCharacter::Dodge(const FInputActionValue& Value)
+{
+}
+
