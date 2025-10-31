@@ -8,7 +8,7 @@ public class Gandalf_GAS : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Niagara", "GameplayAbilities", "MotionWarping" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Niagara", "GameplayTags", "GameplayAbilities", "GameplayTasks", "MotionWarping" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
