@@ -14,7 +14,7 @@ AGandalfPlayerState::AGandalfPlayerState()
 
 	AttributeSet = CreateDefaultSubobject<UGandalfAttributeSet>(TEXT("AttributeSet"));
 
-	NetUpdateFrequency = 100.f;
+	SetNetUpdateFrequency(100.f);
 }
 
 UAbilitySystemComponent* AGandalfPlayerState::GetAbilitySystemComponent() const

@@ -9,6 +9,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Player/GandalfPlayerState.h>
+#include "Gandalf_GAS/Public/GAS/GandalfAbilitySystemComponent.h"
+#include "Gandalf_GAS/Public/GAS/GandalfAttributeSet.h"
 
 AGandalfCharacter::AGandalfCharacter()
 {
@@ -50,6 +53,22 @@ void AGandalfCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AGandalfCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	//Init ability actor info here for the server
+	InitAbilityActorInfo();
+}
+
+void AGandalfCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	//Init ability actor info here for the client
+	InitAbilityActorInfo();
 }
 
 void AGandalfCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -104,5 +123,14 @@ void AGandalfCharacter::Attack(const FInputActionValue& Value)
 
 void AGandalfCharacter::Dodge(const FInputActionValue& Value)
 {
+}
+
+void AGandalfCharacter::InitAbilityActorInfo()
+{
+	AGandalfPlayerState* GandalfPlayerState = GetPlayerState<AGandalfPlayerState>();
+	check(GandalfPlayerState);
+	GandalfPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GandalfPlayerState, this);
+	AbilitySystemComponent = GandalfPlayerState->GetAbilitySystemComponent();
+	AttributeSet = GandalfPlayerState->GetAttributeSet();
 }
 

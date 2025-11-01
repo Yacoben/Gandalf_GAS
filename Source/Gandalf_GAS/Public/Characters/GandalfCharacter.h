@@ -25,6 +25,8 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -62,5 +64,8 @@ protected:
 	void Zoom(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
 	void Dodge(const FInputActionValue& Value);
+
+private:
+	void InitAbilityActorInfo();
 
 };
