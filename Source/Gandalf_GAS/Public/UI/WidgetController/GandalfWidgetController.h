@@ -9,6 +9,29 @@
 class UAbilitySystemComponent;
 class UAttributeSet;
 
+USTRUCT(BlueprintType)
+struct FWidgetControllerContext
+{
+	GENERATED_BODY()
+
+	FWidgetControllerContext() {}
+
+	FWidgetControllerContext(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
+		: PlayerController(PC), PlayerState(PS), AbilitySystemComponent(ASC), AttributeSet(AS) {}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<APlayerController> PlayerController = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<APlayerState> PlayerState = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
+};
+
 /**
  * 
  */
@@ -16,6 +39,13 @@ UCLASS()
 class GANDALF_GAS_API UGandalfWidgetController : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetWidgetControllerContext(const FWidgetControllerContext& WCContext);
+
+	virtual void BroadcastInitialValues();
+	virtual void BindCallbacksToDependencies();
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

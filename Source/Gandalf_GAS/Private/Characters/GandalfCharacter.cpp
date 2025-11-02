@@ -12,6 +12,8 @@
 #include <Player/GandalfPlayerState.h>
 #include "Gandalf_GAS/Public/GAS/GandalfAbilitySystemComponent.h"
 #include "Gandalf_GAS/Public/GAS/GandalfAttributeSet.h"
+#include <Player/GandalfPlayerController.h>
+#include <UI/HUD/GandalfHUD.h>
 
 AGandalfCharacter::AGandalfCharacter()
 {
@@ -132,5 +134,14 @@ void AGandalfCharacter::InitAbilityActorInfo()
 	GandalfPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GandalfPlayerState, this);
 	AbilitySystemComponent = GandalfPlayerState->GetAbilitySystemComponent();
 	AttributeSet = GandalfPlayerState->GetAttributeSet();
+
+	if (AGandalfPlayerController* GandalfPlayerController = Cast<AGandalfPlayerController>(GetController()))
+	{
+		if (AGandalfHUD* GandalfHUD = Cast<AGandalfHUD>(GandalfPlayerController->GetHUD()))
+		{
+			GandalfHUD->InitOverlay(GandalfPlayerController, GandalfPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+
 }
 
