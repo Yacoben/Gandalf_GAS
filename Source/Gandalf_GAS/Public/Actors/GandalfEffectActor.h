@@ -25,7 +25,6 @@ protected:
 	void ApplyEffectToTarget(TSubclassOf<UGameplayEffect> GameplayEffectClass, AActor* TargetActor);
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Gameplay Effects")
-	TSubclassOf<UGameplayEffect> EffectToApplyClass;
-
+	TSubclassOf<UGameplayEffect> EffectClass;
 
 };
