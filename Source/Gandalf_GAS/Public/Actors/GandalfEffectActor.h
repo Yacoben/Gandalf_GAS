@@ -7,7 +7,7 @@
 #include "GandalfEffectActor.generated.h"
 
 
-class USphereComponent;
+class UGameplayEffect;
 
 
 UCLASS()
@@ -21,21 +21,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void OnOverlapBegin(
-		UPrimitiveComponent* OverlappedComp,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex,
-		bool bFromSweep,
-		const FHitResult& SweepResult
-	);
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Effects")
+	void ApplyEffectToTarget(TSubclassOf<UGameplayEffect> GameplayEffectClass, AActor* TargetActor);
 
-private:
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Gameplay Effects")
+	TSubclassOf<UGameplayEffect> EffectToApplyClass;
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> StaticMesh;
 
 };

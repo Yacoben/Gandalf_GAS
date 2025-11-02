@@ -2,37 +2,33 @@
 
 
 #include "Actors/GandalfEffectActor.h"
-#include "Components/SphereComponent.h"
-#include "AbilitySystemInterface.h"
-#include <GAS/GandalfAttributeSet.h>
+#include "AbilitySystemComponent.h"
+#include <AbilitySystemBlueprintLibrary.h>
 
 AGandalfEffectActor::AGandalfEffectActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("Scene Root")));
 
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
-	SetRootComponent(StaticMesh);
 
-	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
-	Sphere->SetupAttachment(StaticMesh);
 }
 
 void AGandalfEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AGandalfEffectActor::OnOverlapBegin);
 }
 
-void AGandalfEffectActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AGandalfEffectActor::ApplyEffectToTarget(TSubclassOf<UGameplayEffect> GameplayEffectClass, AActor* TargetActor)
 {
-	if (IAbilitySystemInterface* ASInterface = Cast<IAbilitySystemInterface>(OtherActor))
-	{
-		const UGandalfAttributeSet* GandalfAttributeSet = Cast<UGandalfAttributeSet>(ASInterface->GetAbilitySystemComponent()->GetAttributeSet(UGandalfAttributeSet::StaticClass()));
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	if (!TargetASC) return;
 
-		UGandalfAttributeSet* MutableGandalfAttributeSet = const_cast<UGandalfAttributeSet*>(GandalfAttributeSet);
-		MutableGandalfAttributeSet->SetHealth(GandalfAttributeSet->GetHealth() + 10.f);
-		MutableGandalfAttributeSet->SetMana(GandalfAttributeSet->GetMana() + 10.f);
-	}
+	check(GameplayEffectClass);
+	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(this);
+	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
+	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data);
 }
 
