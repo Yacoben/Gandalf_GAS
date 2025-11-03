@@ -35,7 +35,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Gameplay Effects")
-	void ApplyEffectToTarget(TSubclassOf<UGameplayEffect> GameplayEffectClass, AActor* TargetActor);
+	FGameplayEffectSpecHandle GetEffectSpecHandleForTargetASC(TSubclassOf<UGameplayEffect> GameplayEffectClass, UAbilitySystemComponent* ASC);
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Effects")
+	void ApplyAllEffectToTarget(const TArray<TSubclassOf<UGameplayEffect>>& GameplayEffectClasses, AActor* TargetActor);
 
 	UFUNCTION(BlueprintCallable, Category = "Gameplay Effects")
 	void OnOverlap(AActor* TargetActor);
@@ -45,13 +48,13 @@ protected:
 
 	/* Gameplay Effect Classes */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gameplay Effects|Instant")
-	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> InstantGameplayEffectClasses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gameplay Effects|Duration")
-	TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> DurationGameplayEffectClasses;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gameplay Effects|Infinite")
-	TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> InfiniteGameplayEffectClasses;
 	/* Gameplay Effect Classes */
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gameplay Effects")
