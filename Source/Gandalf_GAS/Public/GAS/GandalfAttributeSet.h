@@ -13,6 +13,45 @@
  	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
  	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+USTRUCT(BlueprintType)
+struct FEffectProperties
+{
+	GENERATED_BODY()
+
+	FEffectProperties() {};
+
+	UPROPERTY()
+	FGameplayEffectContextHandle EffectContextHandle;
+
+	/* Source */
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> SourceASC;
+
+	UPROPERTY()
+	TObjectPtr <AActor> SourceAvatarActor;
+
+	UPROPERTY()
+	TObjectPtr <AController> SourceController;
+
+	UPROPERTY()
+	TObjectPtr <ACharacter> SourceCharacter;
+	/* Source */
+
+	/* Target */
+	UPROPERTY()
+	TObjectPtr <UAbilitySystemComponent> TargetASC;
+
+	UPROPERTY()
+	TObjectPtr <AActor> TargetAvatarActor;
+
+	UPROPERTY()
+	TObjectPtr <AController> TargetController;
+
+	UPROPERTY()
+	TObjectPtr <ACharacter> TargetCharacter;
+	/* Target */
+};
+
 /**
  * 
  */
@@ -26,6 +65,13 @@ public:
 
 	// Replication
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override; //It's working before any attribute CURRENT VALUE change.
+
+	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override; // It's working before any attribute BASE VALUE change. For clamping attributes values.
+
+	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
+
 
 	/* Health */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
@@ -60,4 +106,7 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana);
 	/* end Mana */
+
+private:
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 };

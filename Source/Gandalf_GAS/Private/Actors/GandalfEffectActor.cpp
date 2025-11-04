@@ -27,7 +27,7 @@ FGameplayEffectSpecHandle AGandalfEffectActor::GetEffectSpecHandleForTargetASC(T
 	check(GameplayEffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = ASC->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
-	const FGameplayEffectSpecHandle EffectSpecHandle = ASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
+	const FGameplayEffectSpecHandle EffectSpecHandle = ASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle);
 
 	return EffectSpecHandle;
 }

@@ -77,4 +77,7 @@ protected:
 	/* EInfiniteEffectRemovalPolicy */
 
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandlesMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Gameplay Effects|Stats")
+	float ActorLevel = 1.f;
 };
