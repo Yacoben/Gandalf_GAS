@@ -23,13 +23,18 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	
+	InitAbilityActorInfo();
 }
 
 void AEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AEnemyCharacter::InitAbilityActorInfo()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UGandalfAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 

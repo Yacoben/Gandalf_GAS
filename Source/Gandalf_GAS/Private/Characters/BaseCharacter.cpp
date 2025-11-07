@@ -22,3 +22,7 @@ UAbilitySystemComponent* ABaseCharacter::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+void ABaseCharacter::InitAbilityActorInfo()
+{
+}
+

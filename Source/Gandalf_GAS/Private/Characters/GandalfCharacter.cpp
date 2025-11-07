@@ -88,6 +88,25 @@ void AGandalfCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 }
 
+void AGandalfCharacter::InitAbilityActorInfo()
+{
+	AGandalfPlayerState* GandalfPlayerState = GetPlayerState<AGandalfPlayerState>();
+	check(GandalfPlayerState);
+	GandalfPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GandalfPlayerState, this);
+	Cast<UGandalfAbilitySystemComponent>(GandalfPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+	AbilitySystemComponent = GandalfPlayerState->GetAbilitySystemComponent();
+	AttributeSet = GandalfPlayerState->GetAttributeSet();
+
+	if (AGandalfPlayerController* GandalfPlayerController = Cast<AGandalfPlayerController>(GetController()))
+	{
+		if (AGandalfHUD* GandalfHUD = Cast<AGandalfHUD>(GandalfPlayerController->GetHUD()))
+		{
+			GandalfHUD->InitOverlay(GandalfPlayerController, GandalfPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+
+}
+
 void AGandalfCharacter::Move(const FInputActionValue& Value)
 {
 	if (GetController())
@@ -125,23 +144,5 @@ void AGandalfCharacter::Attack(const FInputActionValue& Value)
 
 void AGandalfCharacter::Dodge(const FInputActionValue& Value)
 {
-}
-
-void AGandalfCharacter::InitAbilityActorInfo()
-{
-	AGandalfPlayerState* GandalfPlayerState = GetPlayerState<AGandalfPlayerState>();
-	check(GandalfPlayerState);
-	GandalfPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(GandalfPlayerState, this);
-	AbilitySystemComponent = GandalfPlayerState->GetAbilitySystemComponent();
-	AttributeSet = GandalfPlayerState->GetAttributeSet();
-
-	if (AGandalfPlayerController* GandalfPlayerController = Cast<AGandalfPlayerController>(GetController()))
-	{
-		if (AGandalfHUD* GandalfHUD = Cast<AGandalfHUD>(GandalfPlayerController->GetHUD()))
-		{
-			GandalfHUD->InitOverlay(GandalfPlayerController, GandalfPlayerState, AbilitySystemComponent, AttributeSet);
-		}
-	}
-
 }
 

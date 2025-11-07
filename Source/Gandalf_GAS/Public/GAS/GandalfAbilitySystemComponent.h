@@ -14,4 +14,9 @@ class GANDALF_GAS_API UGandalfAbilitySystemComponent : public UAbilitySystemComp
 {
 	GENERATED_BODY()
 	
+public:
+	void AbilityActorInfoSet();
+
+protected:
+	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
 };

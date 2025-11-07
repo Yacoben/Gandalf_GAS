@@ -31,6 +31,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
+	virtual void InitAbilityActorInfo() override;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TObjectPtr<USpringArmComponent> SpringArmComp;
 
@@ -64,8 +66,6 @@ protected:
 	void Zoom(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
 	void Dodge(const FInputActionValue& Value);
-
-private:
-	void InitAbilityActorInfo();
+	
 
 };
