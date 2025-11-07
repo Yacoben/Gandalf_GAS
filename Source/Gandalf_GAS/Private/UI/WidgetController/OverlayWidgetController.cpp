@@ -4,6 +4,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "GAS/GandalfAttributeSet.h"
 #include "GAS/GandalfAbilitySystemComponent.h"
+#include "UI/Widgets/GandalfUserWidget.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -35,9 +36,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		{
 			for (const FGameplayTag& Tag : GameplayTagContainer)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Effect Tag: %s"), *Tag.ToString()));
-
-				FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(MessageTagName)))
+				{
+					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+					OnMessageWidgetRow.Broadcast(*Row);
+				}
 			}
 		}
 	);

@@ -5,23 +5,15 @@
 #include "CoreMinimal.h"
 #include "UI/WidgetController/GandalfWidgetController.h"
 #include "GameplayTagContainer.h"
-#include "UI/Widgets/GandalfUserWidget.h"
 #include "OverlayWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth); // '...Signature' suffix is a convention for delegate types
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature, float, NewMana);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, NewMaxMana);
-
 struct FOnAttributeChangeData;
-
-
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayTag MessageTag = FGameplayTag::EmptyTag;
 
@@ -29,11 +21,20 @@ struct FUIWidgetRow : public FTableRowBase
 	FText MessageText = FText::GetEmpty();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UGandalfUserWidget> MessageWidgetClass = nullptr;
+	TSubclassOf<class UGandalfUserWidget> MessageWidgetClass = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Image = nullptr;
 };
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth); // '...Signature' suffix is a convention for delegate types
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature, float, NewMana);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature, float, NewMaxMana);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMessageWidgetRowSignature, FUIWidgetRow, MessageWidgetRow);
+
+
 
 /**
  * 
@@ -59,6 +60,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnMaxManaChangedSignature OnMaxManaChanged;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Message")
+	FOnMessageWidgetRowSignature OnMessageWidgetRow;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|UI Data")
 	TObjectPtr<UDataTable> MessageWidgetDataTable = nullptr;
@@ -70,6 +74,9 @@ protected:
 
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Message")
+	FName MessageTagName = FName("Message");
 };
 
 template<typename T>
@@ -79,3 +86,4 @@ inline T* UOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, 
 
 	return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
 }
+
