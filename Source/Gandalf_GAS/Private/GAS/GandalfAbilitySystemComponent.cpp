@@ -12,10 +12,5 @@ void UGandalfAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Abil
 {
 	FGameplayTagContainer GameplayTagContainer;
 	GameplayEffectSpec.GetAllAssetTags(GameplayTagContainer);
-
-	for (const FGameplayTag& Tag : GameplayTagContainer)
-	{
-		//  Broadcast all tags applied by the effect to the Widget Controller
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Effect Tag: %s"), *Tag.ToString()));
-	}
+	OnEffectAssetTagsApplied.Broadcast(GameplayTagContainer);
 }

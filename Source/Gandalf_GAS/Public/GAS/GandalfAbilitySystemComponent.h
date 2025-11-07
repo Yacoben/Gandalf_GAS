@@ -6,6 +6,10 @@
 #include "AbilitySystemComponent.h"
 #include "GandalfAbilitySystemComponent.generated.h"
 
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* AssetTags */);
+
+
 /**
  * 
  */
@@ -17,6 +21,10 @@ class GANDALF_GAS_API UGandalfAbilitySystemComponent : public UAbilitySystemComp
 public:
 	void AbilityActorInfoSet();
 
+	FEffectAssetTags OnEffectAssetTagsApplied;
+
 protected:
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& GameplayEffectSpec, FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
+
+
 };

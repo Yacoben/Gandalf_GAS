@@ -2,7 +2,8 @@
 
 
 #include "UI/WidgetController/OverlayWidgetController.h"
-#include <GAS/GandalfAttributeSet.h>
+#include "GAS/GandalfAttributeSet.h"
+#include "GAS/GandalfAbilitySystemComponent.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -29,6 +30,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		GandalfAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
+
+	Cast<UGandalfAbilitySystemComponent>(AbilitySystemComponent)->OnEffectAssetTagsApplied.AddLambda([this](const FGameplayTagContainer& GameplayTagContainer) 
+		{
+			for (const FGameplayTag& Tag : GameplayTagContainer)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Effect Tag: %s"), *Tag.ToString()));
+
+				FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+			}
+		}
+	);
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
